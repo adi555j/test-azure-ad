@@ -1,11 +1,15 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using test_azure_ad.Areas.Identity.Data;
 using test_azure_ad.Models;
 
 namespace test_azure_ad.Controllers
@@ -14,6 +18,7 @@ namespace test_azure_ad.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -25,8 +30,9 @@ namespace test_azure_ad.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public async Task<IActionResult> Privacy([FromServices] UserManager<test_azure_adUser> userManager)
         {
+            var v = await userManager.Users.ToListAsync();
             return View();
         }
 
